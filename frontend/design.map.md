@@ -1,4 +1,4 @@
-I already have an existing CarbonLedger frontend project with a working Home page and Header/Navbar.
+I already have an existing BlueChain frontend project with a working Home page and Header/Navbar.
 
 DO NOT create a new frontend project.
 DO NOT change the existing project structure unnecessarily.
@@ -10,7 +10,7 @@ My goal is to add a new page called:
 
 "AI Environmental Explorer"
 
-This page will be the frontend interface for CarbonLedger's AI/remote-sensing system.
+This page will be the frontend interface for BlueChain's AI/remote-sensing system.
 
 --------------------------------------------------
 1. ADD A ROUTE TO THE EXISTING APPLICATION
@@ -28,7 +28,7 @@ Add "AI Explorer" to the existing Header/Navbar.
 
 Example:
 
-CarbonLedger | Home | AI Explorer | About | Login
+BlueChain | Home | AI Explorer | About | Login
 
 The "AI Explorer" navigation item should navigate to:
 
@@ -70,7 +70,7 @@ The user should be able to:
 6. Calculate the selected area's approximate area.
 7. Confirm the area.
 8. Eventually send the polygon coordinates to the Django backend.
-9. Django will forward the geometry to the CarbonLedger FastAPI AI service.
+9. Django will forward the geometry to the BlueChain FastAPI AI service.
 10. The AI service will use Google Earth Engine and Sentinel-2 imagery.
 11. Results will eventually be returned to the frontend.
 12. The frontend will visualize the results.
@@ -169,7 +169,7 @@ When the user first opens:
 Show:
 
 Header
-    CarbonLedger
+    BlueChain
     Home
     AI Explorer
     About
@@ -185,7 +185,7 @@ Place a floating instruction card:
 
 "Explore an area's environmental potential"
 
-"Select an area on the map and let CarbonLedger AI analyze it."
+"Select an area on the map and let BlueChain AI analyze it."
 
 Add a primary button:
 
@@ -344,7 +344,7 @@ API LOGIC
 12. FUTURE AI RESULTS
 --------------------------------------------------
 
-The current CarbonLedger Version 1 AI service produces results like:
+The current BlueChain Version 1 AI service produces results like:
 
 {
   "status": "success",
@@ -519,7 +519,7 @@ Never expose raw Python, Django, FastAPI, or Google Earth Engine errors.
 
 Example:
 
-"CarbonLedger couldn't analyze this area right now. Please try again."
+"BlueChain couldn't analyze this area right now. Please try again."
 
 --------------------------------------------------
 18. RESPONSIVE DESIGN
@@ -642,15 +642,15 @@ The entire experience should feel like:
 2. User searches for a place.
 3. User clicks "Select Area".
 4. User draws an area.
-5. CarbonLedger shows the selected area and its size.
+5. BlueChain shows the selected area and its size.
 6. User clicks "Analyze Area".
 7. A professional analysis/loading state appears.
 8. Eventually the backend returns the AI analysis.
-9. CarbonLedger displays vegetation, NDVI, and estimated carbon.
+9. BlueChain displays vegetation, NDVI, and estimated carbon.
 10. The map can eventually display spatial environmental/carbon layers.
 
 The primary message should be:
 
-"Select a place. Let CarbonLedger analyze it. Understand its environmental and carbon potential."
+"Select a place. Let BlueChain analyze it. Understand its environmental and carbon potential."
 
 Build this as a polished production-quality feature integrated into my EXISTING frontend, not as a standalone demo application.
