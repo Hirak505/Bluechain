@@ -209,7 +209,7 @@ export default function AIExplorer() {
       }
     } catch (err) {
       console.error(err);
-      setError("CarbonLedger couldn't analyze this area right now. Please try again.");
+      setError("BlueChain couldn't analyze this area right now. Please try again.");
     } finally {
       setLoading(false);
     }

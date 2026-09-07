@@ -1,4 +1,4 @@
-# CarbonLedger AI Service — Technical Context & Architecture Documentation
+# BlueChain AI Service — Technical Context & Architecture Documentation
 
 ## Overview
 The `ai-service` is a microservice built with **FastAPI** and **Google Earth Engine (GEE)** Python API. It provides real-time satellite remote sensing analysis, multi-index spectral calculations, threshold land cover classification, and spatial carbon stock estimation for carbon credit projects.

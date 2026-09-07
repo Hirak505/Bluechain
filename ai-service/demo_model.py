@@ -23,7 +23,7 @@ from carbon.estimator import (
 from models.schemas import AnalyzeRequest, PolygonBoundary
 
 print("==================================================", flush=True)
-print(" *** CarbonLedger AI Model Pipeline Execution ***", flush=True)
+print(" *** BlueChain AI Model Pipeline Execution ***", flush=True)
 print("==================================================", flush=True)
 
 print("\n[Step 1] Initializing Google Earth Engine connection...", flush=True)

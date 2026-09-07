@@ -23,7 +23,14 @@ app.add_middleware(
 
 @app.on_event("startup")
 def init_earth_engine():
-    ee.Initialize(project=PROJECT_ID)
+    try:
+        ee.Initialize(project=PROJECT_ID)
+    except Exception as exc:
+        import logging
+        logging.getLogger(__name__).warning(
+            "Google Earth Engine initialization failed — running in fallback mode. "
+            "Run `earthengine authenticate` to enable live GEE analysis. Error: %s", exc
+        )
 
 
 app.include_router(router)
