@@ -19,7 +19,7 @@ const ROLES = ['Company Buyer', 'Government Official', 'NGO Representative', 'Ad
 
 export default function Register() {
   const [, setLocation] = useLocation();
-  const { register } = useAuth();
+  const { register, isAuthenticated } = useAuth();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -29,6 +29,18 @@ export default function Register() {
   const [companies, setCompanies] = useState<Company[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  const getRedirectPath = () => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const next = searchParams.get('next');
+    return next && next.startsWith('/') && !next.startsWith('//') ? next : '/dashboard';
+  };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      setLocation(getRedirectPath());
+    }
+  }, [isAuthenticated, setLocation]);
 
   useEffect(() => {
     apiFetch('/api/v1/CarbonLedger/')
@@ -68,7 +80,7 @@ export default function Register() {
         role,
         ...(companyId ? { company: parseInt(companyId, 10) } : {}),
       });
-      setLocation('/dashboard');
+      setLocation(getRedirectPath());
     } catch (err: any) {
       setError(err.message || 'Registration failed');
     } finally {
@@ -222,7 +234,11 @@ export default function Register() {
           <p className="text-slate-600 text-sm">
             Already registered?{' '}
             <button
-              onClick={() => setLocation('/login')}
+              onClick={() => {
+                const searchParams = new URLSearchParams(window.location.search);
+                const next = searchParams.get('next');
+                setLocation(next ? `/login?next=${encodeURIComponent(next)}` : '/login');
+              }}
               className="text-blue-600 hover:text-blue-700 font-medium hover:underline"
             >
               Access your account

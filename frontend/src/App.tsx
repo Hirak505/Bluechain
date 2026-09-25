@@ -5,6 +5,8 @@ import ErrorBoundary from "@/components/ErrorBoundary";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
+import ProtectedRoute from "@/components/ProtectedRoute";
+
 import Landing from "@/pages/Landing";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
@@ -28,19 +30,55 @@ function App() {
             <Header />
             <main className="flex-1">
               <Switch>
+                {/* Public Routes */}
                 <Route path="/" component={Landing} />
                 <Route path="/ai-explorer" component={AIExplorer} />
                 <Route path="/login" component={Login} />
                 <Route path="/register" component={Register} />
-                <Route path="/dashboard" component={Dashboard} />
-                <Route path="/admin" component={AdminDashboard} />
-                <Route path="/carbon-history" component={CarbonHistory} />
-                <Route path="/maps-charts" component={MapsCharts} />
-                <Route path="/projects" component={ProjectRegistration} />
-                <Route path="/projects/new" component={ProjectRegistration} />
                 <Route path="/marketplace" component={Marketplace} />
-                <Route path="/reports" component={Reports} />
-                <Route path="/profile" component={Profile} />
+
+                {/* Protected Routes */}
+                <Route path="/dashboard">
+                  <ProtectedRoute>
+                    <Dashboard />
+                  </ProtectedRoute>
+                </Route>
+                <Route path="/admin">
+                  <ProtectedRoute adminOnly>
+                    <AdminDashboard />
+                  </ProtectedRoute>
+                </Route>
+                <Route path="/carbon-history">
+                  <ProtectedRoute>
+                    <CarbonHistory />
+                  </ProtectedRoute>
+                </Route>
+                <Route path="/maps-charts">
+                  <ProtectedRoute>
+                    <MapsCharts />
+                  </ProtectedRoute>
+                </Route>
+                <Route path="/projects">
+                  <ProtectedRoute>
+                    <ProjectRegistration />
+                  </ProtectedRoute>
+                </Route>
+                <Route path="/projects/new">
+                  <ProtectedRoute>
+                    <ProjectRegistration />
+                  </ProtectedRoute>
+                </Route>
+                <Route path="/reports">
+                  <ProtectedRoute>
+                    <Reports />
+                  </ProtectedRoute>
+                </Route>
+                <Route path="/profile">
+                  <ProtectedRoute>
+                    <Profile />
+                  </ProtectedRoute>
+                </Route>
+
                 <Route component={NotFound} />
               </Switch>
             </main>

@@ -1,11 +1,12 @@
 import { useMemo, useState, useEffect } from 'react';
+import { useLocation } from 'wouter';
 import { MapContainer, Polygon, TileLayer, CircleMarker, Tooltip, useMapEvents, useMap } from 'react-leaflet';
 
 
 import { area as turfArea } from '@turf/turf';
 import type { Feature, Polygon as GeoPolygon } from 'geojson';
 import 'leaflet/dist/leaflet.css';
-import { RotateCcw, Trash2 } from 'lucide-react';
+import { RotateCcw, Trash2, Globe } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { analyzeArea, type AnalysisResult, type IndexStatItem } from '@/services/analysisApi';
 
@@ -106,6 +107,7 @@ function MapViewController({
 }
 
 export default function AIExplorer() {
+  const [, setLocation] = useLocation();
   const [selectedLocation, setSelectedLocation] = useState('Sundarbans');
   const [flyToTarget, setFlyToTarget] = useState<{ location: LocationPreset; id: number } | null>(null);
   const [isDrawing, setIsDrawing] = useState(false);
@@ -649,6 +651,29 @@ export default function AIExplorer() {
               <span>300+ t/ha (Dense)</span>
             </div>
           </div>
+
+          {/* Register this Area button */}
+          <Button
+            className="mt-4 w-full bg-blue-600 text-white hover:bg-blue-700 font-semibold"
+            onClick={() => {
+              // Compute centroid from drawn polygon points
+              const lats = drawnPoints.map(([, lat]) => lat);
+              const lngs = drawnPoints.map(([lng]) => lng);
+              const centroidLat = (lats.reduce((a, b) => a + b, 0) / lats.length).toFixed(6);
+              const centroidLng = (lngs.reduce((a, b) => a + b, 0) / lngs.length).toFixed(6);
+              const areaHa = areaHectares ? Math.round(areaHectares).toString() : '';
+              const carbonT = analysis ? Math.round(analysis.carbon.total_tonnes).toString() : '';
+              const params = new URLSearchParams();
+              if (centroidLat) params.set('lat', centroidLat);
+              if (centroidLng) params.set('lng', centroidLng);
+              if (areaHa) params.set('area', areaHa);
+              if (carbonT) params.set('carbon', carbonT);
+              setLocation(`/projects/new?${params.toString()}`);
+            }}
+          >
+            <Globe className="h-4 w-4 mr-2" />
+            Register this Area as a Project
+          </Button>
         </div>
       )}
     </div>

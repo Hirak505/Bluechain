@@ -16,7 +16,7 @@ export default function Header() {
     { label: 'AI Explorer', href: '/ai-explorer' },
     { label: 'Dashboard', href: '/dashboard', protected: true },
     { label: 'Marketplace', href: '/marketplace', protected: false },
-    { label: 'Reports', href: '/reports', protected: false },
+    { label: 'Reports', href: '/reports', protected: true },
     { label: 'Register Project', href: '/projects', protected: true },
     { label: 'Maps & Charts', href: '/maps-charts', protected: true },
     { label: 'History', href: '/carbon-history', protected: true },

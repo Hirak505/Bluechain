@@ -8,7 +8,7 @@ import ProtectedRoute from '@/components/ProtectedRoute';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ArrowLeft, Sparkles, Loader2, CheckCircle2, AlertCircle, Satellite, Globe } from 'lucide-react';
-import { apiFetch } from '@/lib/api';
+import { apiFetch, AI_SERVICE_BASE_URL } from '@/lib/api';
 
 interface AIEstimateResult {
   project_name: string;
@@ -25,16 +25,25 @@ interface AIEstimateResult {
 
 export default function ProjectRegistration() {
   const [, setLocation] = useLocation();
+
+  // Read prefill values from AI Explorer query params
+  const searchParams = new URLSearchParams(window.location.search);
+  const prefillLat = searchParams.get('lat');
+  const prefillLng = searchParams.get('lng');
+  const prefillArea = searchParams.get('area');
+  const prefillCarbon = searchParams.get('carbon');
+  const hasAIPrefill = !!(prefillLat || prefillLng || prefillArea || prefillCarbon);
+
   const [formData, setFormData] = useState({
     projectName: '',
     projectType: 'Blue Carbon Project',
     location: '',
-    latitude: '21.9497',
-    longitude: '88.9468',
+    latitude: prefillLat || '21.9497',
+    longitude: prefillLng || '88.9468',
     description: '',
     startDate: new Date().toISOString().split('T')[0],
-    estimatedArea: '500',
-    expectedCarbonSequestration: '200000',
+    estimatedArea: prefillArea || '500',
+    expectedCarbonSequestration: prefillCarbon || '200000',
     walletAddress: '',
   });
 
@@ -60,7 +69,7 @@ export default function ProjectRegistration() {
       const lon = parseFloat(formData.longitude) || 88.9468;
       const area = parseFloat(formData.estimatedArea) || 500;
 
-      const res = await fetch('http://localhost:8001/api/analyze', {
+      const res = await fetch(`${AI_SERVICE_BASE_URL}/api/analyze`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -176,6 +185,17 @@ export default function ProjectRegistration() {
             )}
 
             {/* AI Estimation Card */}
+            {hasAIPrefill && (
+              <div className="mb-6 p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-lg flex items-start gap-3 text-sm">
+                <Globe className="h-5 w-5 flex-shrink-0 mt-0.5 text-emerald-600" />
+                <div>
+                  <p className="font-semibold">Prefilled from AI Explorer</p>
+                  <p className="text-emerald-700 mt-0.5">
+                    Coordinates, area, and carbon estimate were imported from your AI Explorer analysis. Please review and edit the values below before submitting.
+                  </p>
+                </div>
+              </div>
+            )}
             <div className="mb-8 p-5 bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200 rounded-xl">
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2 text-blue-900 font-semibold text-base">

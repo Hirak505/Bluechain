@@ -1,12 +1,13 @@
 // frontend/src/lib/api.ts
 import axios from 'axios';
 
-const RAW_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
-const HOST = RAW_URL.replace(/\/api(\/v1)?\/?$/, '');
-const API_BASE_URL = `${HOST}/api/v1`;
+const RAW_URL = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || 'http://localhost:8000';
+export const DJANGO_HOST = RAW_URL.replace(/\/api(\/v1)?\/?$/, '');
+export const API_BASE_URL = `${DJANGO_HOST}/api/v1`;
+export const AI_SERVICE_BASE_URL = (import.meta.env.VITE_AI_SERVICE_URL || 'http://localhost:8001').replace(/\/+$/, '');
 
 // Helper to get stored auth token
-const getAuthToken = (): string | null => {
+export const getAuthToken = (): string | null => {
   return (
     localStorage.getItem('token') ||
     localStorage.getItem('access_token') ||

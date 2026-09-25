@@ -1,4 +1,5 @@
 import * as turf from '@turf/turf';
+import { AI_SERVICE_BASE_URL } from '@/lib/api';
 
 export interface IndexStatItem {
   min: number;
@@ -61,7 +62,7 @@ export interface AnalyzeOptions {
   customDensityMatrix?: Record<number, number>;
 }
 
-const AI_SERVICE_URL = 'http://localhost:8001/api/analyze';
+const AI_SERVICE_URL = `${AI_SERVICE_BASE_URL}/api/analyze`;
 
 export async function analyzeArea(
   geojson: unknown,
@@ -104,7 +105,7 @@ export async function analyzeArea(
       };
     }
   } catch (err) {
-    console.warn('AI Service offline or unreachable at http://localhost:8001, providing local estimation fallback:', err);
+    console.warn(`AI Service offline or unreachable at ${AI_SERVICE_BASE_URL}, providing local estimation fallback:`, err);
   }
 
   // Fallback estimation if FastAPI backend is not running locally

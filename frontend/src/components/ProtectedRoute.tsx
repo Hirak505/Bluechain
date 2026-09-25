@@ -9,18 +9,23 @@ interface ProtectedRouteProps {
 
 export default function ProtectedRoute({ children, adminOnly = false }: ProtectedRouteProps) {
   const { isAuthenticated, user, loading } = useAuth();
-  const [, setLocation] = useLocation();
+  const [location, setLocation] = useLocation();
 
   useEffect(() => {
     if (loading) return;
     if (!isAuthenticated) {
-      setLocation('/login');
+      const currentPath = window.location.pathname + window.location.search;
+      const redirectPath: string =
+        currentPath && !currentPath.startsWith('/login')
+          ? currentPath
+          : location || '/dashboard';
+      setLocation(`/login?next=${encodeURIComponent(redirectPath)}`);
       return;
     }
     if (adminOnly && user?.role !== 'Admin' && user?.role !== 'Government Official') {
       setLocation('/dashboard');
     }
-  }, [isAuthenticated, adminOnly, user?.role, loading, setLocation]);
+  }, [isAuthenticated, adminOnly, user?.role, loading, location, setLocation]);
 
   if (loading) {
     return (
